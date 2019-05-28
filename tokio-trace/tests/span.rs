@@ -490,24 +490,7 @@ fn explicit_child() {
 
     with_default(subscriber, || {
         let foo = span!(Level::TRACE, "foo");
-        span!(Level::TRACE, parent: foo.id(), "bar");
-    });
-
-    handle.assert_finished();
-}
-
-#[test]
-fn explicit_child_from_ref_clones_id() {
-    let (subscriber, handle) = subscriber::mock()
-        .new_span(span::mock().named("foo"))
-        .clone_span(span::mock().named("foo"))
-        .new_span(span::mock().named("bar").with_explicit_parent(Some("foo")))
-        .done()
-        .run_with_handle();
-
-    with_default(subscriber, || {
-        let foo = span!(Level::TRACE, "foo");
-        span!(Level::TRACE, parent: &foo, "bar");
+        span!(Level::TRACE, parent: foo, "bar");
     });
 
     handle.assert_finished();
@@ -526,7 +509,7 @@ fn explicit_child_regardless_of_ctx() {
 
     with_default(subscriber, || {
         let foo = span!(Level::TRACE, "foo");
-        span!(Level::TRACE, "bar").enter(|| span!(Level::TRACE, parent: foo.id(), "baz"))
+        span!(Level::TRACE, "bar").enter(|| span!(Level::TRACE, parent: foo, "baz"))
     });
 
     handle.assert_finished();
