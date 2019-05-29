@@ -22,6 +22,7 @@ categories = ["asynchronous"]
 publish = false
 
 [dependencies]
-tokio-io = { version = "0.2.0", path = "../tokio-io" }
+futures-preview = "=0.3.0-alpha.16"
+pin-utils = "0.1.0-alpha.4"
 bytes = "0.4.7"
-futures = "0.1.18"
+log = "0.4"
